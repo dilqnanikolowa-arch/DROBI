@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТЕСТ - Действия с десетични дроби</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .grading-scale {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .name-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .name-section input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .name-section button {
+            margin-top: 15px;
+            padding: 12px 40px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .name-section button:hover {
+            transform: scale(1.05);
+        }
+        
+        .question {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+        
+        .points {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 16px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .result h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .result .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .result .grade {
+            font-size: 36px;
+            margin: 20px 0;
+        }
+        
+        .restart-btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ТЕСТ - Действия с десетични дроби</h1>
+            <div class="grading-scale">
+                <strong>Оценяване:</strong><br>
+                Отличен (6): 32 – 35 т.<br>
+                Много добър (5): 26 – 31 т.<br>
+                Добър (4): 18 – 25 т.<br>
+                Среден (3): 9 – 17 т.<br>
+                Слаб (2): 0 – 8 т.
+            </div>
+        </div>
+        
+        <div class="content">
+            <div id="nameSection" class="name-section">
+                <h2>Моля, въведете Вашето име:</h2>
+                <input type="text" id="studentName" placeholder="Име и фамилия" />
+                <br>
+                <button onclick="startTest()">Започни теста</button>
+            </div>
+            
+            <div id="testSection" class="hidden">
+                <form id="testForm">
+                    <!-- Question 1 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 1</span>
+                            <span class="points">2 точки</span>
+                        </div>
+                        <div class="question-text">Приблизителната стойност на числото 7,346 с точност до 0,01 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q1" value="a" id="q1a">
+                                <label for="q1a">7,3</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q1" value="b" id="q1b">
+                                <label for="q1b">7,34</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q1" value="c" id="q1c">
+                                <label for="q1c">7,35</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q1" value="d" id="q1d">
+                                <label for="q1d">7,4</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 2</span>
+                            <span class="points">2 точки</span>
+                        </div>
+                        <div class="question-text">Стойността на израза 6,42 + 8,76 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q2" value="a" id="q2a">
+                                <label for="q2a">15,08</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q2" value="b" id="q2b">
+                                <label for="q2b">15,18</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q2" value="c" id="q2c">
+                                <label for="q2c">14,18</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q2" value="d" id="q2d">
+                                <label for="q2d">15,28</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 3</span>
+                            <span class="points">2 точки</span>
+                        </div>
+                        <div class="question-text">235,6 dm се изразяват в метри така:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q3" value="a" id="q3a">
+                                <label for="q3a">23,56</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q3" value="b" id="q3b">
+                                <label for="q3b">2,356</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q3" value="c" id="q3c">
+                                <label for="q3c">0,2356</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q3" value="d" id="q3d">
+                                <label for="q3d">2356</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 4</span>
+                            <span class="points">2 точки</span>
+                        </div>
+                        <div class="question-text">Стойността на израза 18,65 − 4,82 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q4" value="a" id="q4a">
+                                <label for="q4a">13,83</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q4" value="b" id="q4b">
+                                <label for="q4b">14,83</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q4" value="c" id="q4c">
+                                <label for="q4c">13,93</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q4" value="d" id="q4d">
+                                <label for="q4d">14,93</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 5</span>
+                            <span class="points">3 точки</span>
+                        </div>
+                        <div class="question-text">Стойността на израза 4,6 ⋅ 0,85 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q5" value="a" id="q5a">
+                                <label for="q5a">0,391</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q5" value="b" id="q5b">
+                                <label for="q5b">3,91</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q5" value="c" id="q5c">
+                                <label for="q5c">39,1</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q5" value="d" id="q5d">
+                                <label for="q5d">3,101</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 6 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 6</span>
+                            <span class="points">2 точки</span>
+                        </div>
+                        <div class="question-text">Стойността на израза 36,824 ⋅ 0,01 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q6" value="a" id="q6a">
+                                <label for="q6a">3,6824</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q6" value="b" id="q6b">
+                                <label for="q6b">0,36824</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q6" value="c" id="q6c">
+                                <label for="q6c">3682,4</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q6" value="d" id="q6d">
+                                <label for="q6d">0,036824</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 7 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 7</span>
+                            <span class="points">3 точки</span>
+                        </div>
+                        <div class="question-text">Стойността на израза 83,16 : 6 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q7" value="a" id="q7a">
+                                <label for="q7a">13,86</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q7" value="b" id="q7b">
+                                <label for="q7b">13,96</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q7" value="c" id="q7c">
+                                <label for="q7c">1,386</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q7" value="d" id="q7d">
+                                <label for="q7d">138,6</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 8 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 8</span>
+                            <span class="points">3 точки</span>
+                        </div>
+                        <div class="question-text">Стойността на частното 4,368 : 3,6 е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q8" value="a" id="q8a">
+                                <label for="q8a">1,2</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q8" value="b" id="q8b">
+                                <label for="q8b">12,1</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q8" value="c" id="q8c">
+                                <label for="q8c">1,21</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q8" value="d" id="q8d">
+                                <label for="q8d">1,12</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 9 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 9</span>
+                            <span class="points">3 точки</span>
+                        </div>
+                        <div class="question-text">Ако (6,38 − 3,26) + x = 11,74, то неизвестното число x е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q9" value="a" id="q9a">
+                                <label for="q9a">8,62</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q9" value="b" id="q9b">
+                                <label for="q9b">14,86</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q9" value="c" id="q9c">
+                                <label for="q9c">4,36</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q9" value="d" id="q9d">
+                                <label for="q9d">9,52</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 10 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 10</span>
+                            <span class="points">3 точки</span>
+                        </div>
+                        <div class="question-text">Ако (0,72 + 5,28) ⋅ x = 18, то неизвестното число x е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q10" value="a" id="q10a">
+                                <label for="q10a">3</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q10" value="b" id="q10b">
+                                <label for="q10b">0,3</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q10" value="c" id="q10c">
+                                <label for="q10c">4</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q10" value="d" id="q10d">
+                                <label for="q10d">108</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 11 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 11</span>
+                            <span class="points">5 точки</span>
+                        </div>
+                        <div class="question-text">Дължината на правоъгълник е 18,36 cm, а широчината му е 4 пъти по-малка. Обиколката на правоъгълника е:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q11" value="a" id="q11a">
+                                <label for="q11a">22,95 cm</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q11" value="b" id="q11b">
+                                <label for="q11b">45,9 cm</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q11" value="c" id="q11c">
+                                <label for="q11c">84,25 cm</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q11" value="d" id="q11d">
+                                <label for="q11d">41,85 cm</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 12 -->
+                    <div class="question">
+                        <div class="question-header">
+                            <span class="question-number">Въпрос 12</span>
+                            <span class="points">5 точки</span>
+                        </div>
+                        <div class="question-text">Мария купила 3 тетрадки по 3,65 лв. всяка и 5 моливи по 0,85 лв. всяк. Покупката на Мария струва:</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" name="q12" value="a" id="q12a">
+                                <label for="q12a">15,20 лв.</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q12" value="b" id="q12b">
+                                <label for="q12b">13,50 лв.</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q12" value="c" id="q12c">
+                                <label for="q12c">15,45 лв.</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" name="q12" value="d" id="q12d">
+                                <label for="q12d">14,20 лв.</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="submit-btn" onclick="submitTest()">Предай теста</button>
+                </form>
+            </div>
+            
+            <div id="resultSection" class="hidden">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let studentName = '';
+        
+        const correctAnswers = {
+            q1: 'c',  // 7,35
+            q2: 'b',  // 15,18
+            q3: 'a',  // 23,56
+            q4: 'a',  // 13,83
+            q5: 'b',  // 3,91
+            q6: 'b',  // 0,36824
+            q7: 'a',  // 13,86
+            q8: 'a',  // 1,2
+            q9: 'a',  // 8,62
+            q10: 'a', // 3
+            q11: 'b', // 45,9
+            q12: 'c'  // 15,45
+        };
+        
+        const points = {
+            q1: 2,
+            q2: 2,
+            q3: 2,
+            q4: 2,
+            q5: 3,
+            q6: 2,
+            q7: 3,
+            q8: 3,
+            q9: 3,
+            q10: 3,
+            q11: 5,
+            q12: 5
+        };
+        
+        function startTest() {
+            const nameInput = document.getElementById('studentName');
+            studentName = nameInput.value.trim();
+            
+            if (studentName === '') {
+                alert('Моля, въведете Вашето име!');
+                return;
+            }
+            
+            document.getElementById('nameSection').classList.add('hidden');
+            document.getElementById('testSection').classList.remove('hidden');
+        }
+        
+        function submitTest() {
+            let totalScore = 0;
+            let answeredAll = true;
+            
+            for (let question in correctAnswers) {
+                const answer = document.querySelector(`input[name="${question}"]:checked`);
+                if (!answer) {
+                    answeredAll = false;
+                    break;
+                }
+                
+                if (answer.value === correctAnswers[question]) {
+                    totalScore += points[question];
+                }
+            }
+            
+            if (!answeredAll) {
+                alert('Моля, отговорете на всички въпроси преди да предадете теста!');
+                return;
+            }
+            
+            let grade, gradeText;
+            if (totalScore >= 32) {
+                grade = 6;
+                gradeText = 'Отличен';
+            } else if (totalScore >= 26) {
+                grade = 5;
+                gradeText = 'Много добър';
+            } else if (totalScore >= 18) {
+                grade = 4;
+                gradeText = 'Добър';
+            } else if (totalScore >= 9) {
+                grade = 3;
+                gradeText = 'Среден';
+            } else {
+                grade = 2;
+                gradeText = 'Слаб';
+            }
+            
+            document.getElementById('testSection').classList.add('hidden');
+            
+            const resultHTML = `
+                <div class="result">
+                    <h2>Резултати на ${studentName}</h2>
+                    <div class="score">${totalScore} / 35 точки</div>
+                    <div class="grade">Оценка: ${gradeText} (${grade})</div>
+                    <button class="restart-btn" onclick="location.reload()">Нов опит</button>
+                </div>
+            `;
+            
+            document.getElementById('resultSection').innerHTML = resultHTML;
+            document.getElementById('resultSection').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
